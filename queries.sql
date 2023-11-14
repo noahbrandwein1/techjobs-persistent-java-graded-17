@@ -19,11 +19,14 @@ DROP TABLE job;
 
 --Part 4
 
-SELECT s.name
-FROM skill s
-JOIN job_skills js ON s.id = js.skills_id
-WHERE js.jobs_id IS NOT NULL
-ORDER BY s.name ASC;
+SELECT skill.name
+FROM skill
+INNER JOIN job_skills ON skill.id = job_skills.skills_id
+WHERE job_skills.jobs_id IS NOT NULL
+ORDER BY skill.name ASC;
+
+
+
 
 
 
