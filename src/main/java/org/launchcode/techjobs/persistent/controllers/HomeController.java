@@ -4,6 +4,7 @@ import jakarta.persistence.Access;
 import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Employer;
 import org.launchcode.techjobs.persistent.models.Job;
+import org.launchcode.techjobs.persistent.models.Skill;
 import org.launchcode.techjobs.persistent.models.data.EmployerRepository;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
 import org.launchcode.techjobs.persistent.models.data.SkillRepository;
@@ -14,8 +15,11 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by LaunchCode
@@ -52,13 +56,13 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors,
-                                        @RequestParam int employerId,
-                                        @RequestParam int[] skills,
-                                        Model model) {
+                                    Errors errors,
+                                    @RequestParam int employerId,
+                                    @RequestParam List<Integer> skills,
+                                    Model model) {
 
         if (errors.hasErrors()) {
-	        model.addAttribute("title", "Add Job");
+            model.addAttribute("title", "Add Job");
             return "add";
         }
 
@@ -66,6 +70,16 @@ public class HomeController {
         if (optionalEmployer.isPresent()) {
             Employer employer = optionalEmployer.get();
             newJob.setEmployer(employer);
+        }
+
+        if (skills != null && !skills.isEmpty()) {
+            // Convert int array to a list of Integers
+            List<Skill> skillObjs = new ArrayList<>();
+            skillRepository.findAllById(skills).forEach(skillObjs::add);
+            newJob.setSkills(skillObjs);
+        } else {
+            // Ensure that the skills field is not null if no skills are selected
+            newJob.setSkills(new ArrayList<>());
         }
 
         jobRepository.save(newJob);
