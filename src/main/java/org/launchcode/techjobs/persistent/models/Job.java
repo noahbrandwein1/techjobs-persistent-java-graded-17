@@ -10,20 +10,14 @@ import java.util.List;
 @Entity
 public class Job extends AbstractEntity {
     @ManyToOne
-    @NotNull(message = "Employer is required")
     private Employer employer;
 
     @ManyToMany
-    @JoinTable(
-            name = "job_skills",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "skills_id")
-    )
     private List<Skill> skills;
 
 
     public Job() {
-        this.skills = new ArrayList<>();
+
     }
 
     // Initialize the id and value fields.
@@ -34,14 +28,6 @@ public class Job extends AbstractEntity {
     }
 
     // Getters and setters.
-    
-    public String getName() {
-        return super.getName();
-    }
-
-    public void setName(String name) {
-        super.setName(name);
-    }
 
     public Employer getEmployer() {
         return employer;

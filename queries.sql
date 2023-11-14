@@ -19,9 +19,15 @@ DROP TABLE job;
 
 --Part 4
 
-SELECT DISTINCT s.name
-FROM skills
+SELECT s.name
+FROM skill s
 JOIN job_skills js ON s.id = js.skills_id
+WHERE js.jobs_id IS NOT NULL
 ORDER BY s.name ASC;
+
+
+
+
+
 
 

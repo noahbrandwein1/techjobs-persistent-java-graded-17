@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
@@ -11,12 +13,13 @@ import org.springframework.data.repository.CrudRepository;
 @Entity
 public class Skill extends AbstractEntity {
 
-    @NotBlank
-    @Size(max = 100, message = "Description must be less than or equal to 100 characters")
     private String description;
 
     @ManyToMany(mappedBy = "skills")
-    private List<Job> jobs;
+    private List<Job> jobs = new ArrayList<>();
+
+    public Skill() {
+    }
 
     public String getDescription() {
         return description;
@@ -28,9 +31,5 @@ public class Skill extends AbstractEntity {
 
     public List<Job> getJobs() {
         return jobs;
-    }
-
-    public void setJobs(List<Job> jobs) {
-        this.jobs = jobs;
     }
 }
