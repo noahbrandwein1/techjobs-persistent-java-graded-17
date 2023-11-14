@@ -6,10 +6,6 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-interface EmployerRepository extends CrudRepository<Employer, Integer> {
-
-}
 
 @Entity
 public class Employer extends AbstractEntity {
