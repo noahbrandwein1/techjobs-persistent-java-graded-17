@@ -74,12 +74,8 @@ public class HomeController {
 
         if (skills != null && !skills.isEmpty()) {
             // Convert int array to a list of Integers
-            List<Skill> skillObjs = new ArrayList<>();
-            skillRepository.findAllById(skills).forEach(skillObjs::add);
+            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
             newJob.setSkills(skillObjs);
-        } else {
-            // Ensure that the skills field is not null if no skills are selected
-            newJob.setSkills(new ArrayList<>());
         }
 
         jobRepository.save(newJob);
